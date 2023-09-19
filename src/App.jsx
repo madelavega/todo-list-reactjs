@@ -5,6 +5,7 @@ import TasksList from './components/TasksList';
 
 function App() {
   const [tasks, setTasks] = useState([]);
+  const [query, setQuery] = useState('');
 
   const addTask = description => {
     setTasks(tasks.concat([{ description, creationDate: new Date() }]));
@@ -13,15 +14,14 @@ function App() {
   const removeTask = taskDescription => {
     setTasks(tasks.filter(({description}) => description !== taskDescription));
   };
-
   return (
     <Box sx={{ flexGrow: 1, margin: 2 }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Header addTask={addTask} />
+          <Header setQuery={setQuery} addTask={addTask} />
         </Grid>
         <Grid item xs={12}>
-          <TasksList tasks={tasks} removeTask={removeTask} />
+          <TasksList tasks={query.length ? tasks.filter(({description}) => description === query) : tasks} removeTask={removeTask} />
         </Grid>
       </Grid>
     </Box>
